@@ -4,16 +4,14 @@ FROM python:3.7.3
 # Create app directory
 WORKDIR /great_expectations
 
-# Install app dependencies
-RUN pip install great_expectations
-RUN pip install pandas
-RUN pip install sqlalchemy
-RUN pip install psycopg2
-RUN pip install pyodbc
-RUN pip install pyarrow
-
 # Copy app source code
 COPY . .
+
+# Update pip
+RUN pip install --upgrade pip
+
+# Install requirements
+RUN pip install -r requirements.txt --no-cache-dir
 
 # Expose port
 EXPOSE 80
