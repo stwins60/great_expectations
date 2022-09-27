@@ -2,13 +2,10 @@
 version: 0.2
 
 phases:
-  prebuild:
+  build:
     commands:
       - echo list s3 buckets
       - aws s3 ls
-  
-  build:
-    commands:
       - echo copy files to s3
       - for i in $(aws s3 ls | awk '{print $3}'); do echo $i; if [ $i = $S3_BUCKET_NAME ]; 
         then echo "Bucket exists" && aws s3 cp --recursive . s3://$S3_BUCKET_NAME; fi; done
