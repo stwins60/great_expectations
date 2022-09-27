@@ -1,7 +1,7 @@
 # Buildspec that copies the contents of bitbucket repo to s3 bucket
 version: 0.2
 
-phase:
+phases:
   prebuild:
     commands:
       - echo list s3 buckets
