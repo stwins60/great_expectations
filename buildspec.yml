@@ -2,8 +2,33 @@
 version: 0.2
 
 phases:
+  install:
+    commands:
+      - echo "Install latest python version"
+      - pip install --upgrade pip
+      - pip install --upgrade setuptools
+      - pip install --upgrade wheel
+      - pip install --upgrade awscli
+      - pip install --upgrade great_expectations
+      - pip install --upgrade pandas
+      - pip install --upgrade numpy
+      - pip install --upgrade pyarrow
+      - pip install --upgrade pyyaml
+      - pip install --upgrade boto3
+      - pip install --upgrade s3fs
+      - pip install --upgrade sqlalchemy
+      - pip install --upgrade psycopg2
+      - pip install --upgrade pyodbc
+
+
+  pre_build:
+    commands:
+      - echo "Run great_expectations checkpoint"
+      - great_expectations checkpoint run my_checkpoint
   build:
     commands:
+      - echo "Update checkpoint folder in s3"
+      - aws s3 sync great_expectations s3://mybucket/great_expectations --delete
       - echo list s3 buckets
       - aws s3 ls
       - echo copy files to s3
