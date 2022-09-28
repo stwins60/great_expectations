@@ -21,8 +21,6 @@ phases:
 
   pre_build:
     commands:
-      - echo "Update checkpoint folder in s3"
-      - aws s3 sync great_expectations s3://mybucket/great_expectations --delete
       - echo list s3 buckets
       - aws s3 ls
       - echo copy files to s3
