@@ -23,8 +23,12 @@ phases:
 
   pre_build:
     commands:
+      - echo "Initialize Great Expectations"
+      - great_expectations init
+      - echo "Run great_expectations expectations"
+      - great_expectations --v3-api suite new
       - echo "Run great_expectations checkpoint"
-      - great_expectations checkpoint run my_checkpoint
+      - great_expectations checkpoint run ge_checkpoint
   build:
     commands:
       - echo "Update checkpoint folder in s3"
