@@ -2,43 +2,21 @@
 version: 0.2
 
 phases:
-  install:
-    commands:
-      - echo "Install latest python version"
-      - pip install --upgrade pip
-      - pip install --upgrade setuptools
-      - pip install --upgrade wheel
-      - pip install --upgrade awscli
-      - pip install --upgrade great_expectations
-      - pip install --upgrade pandas
-      - pip install --upgrade numpy
-      - pip install --upgrade pyarrow
-      - pip install --upgrade pyyaml
-      - pip install --upgrade sqlalchemy
-      - pip install --upgrade psycopg2
-      - pip install --upgrade pyodbc
-
-
-  pre_build:
+  prebuild:
     commands:
       - echo list s3 buckets
       - aws s3 ls
-      - echo copy files to s3
+      
+  
+  build:
+    commands:
+      - echo copy bitbucket files to s3
       - for i in $(aws s3 ls | awk '{print $3}'); do echo $i; if [ $i = $S3_BUCKET_NAME ]; 
-        then echo "Bucket exists" && aws s3 cp --recursive . s3://$S3_BUCKET_NAME; fi; done
+        then echo "Bucket exists" && aws s3 cp --recursive ./checkpoints/** s3://$S3_BUCKET_NAME/checkpoints/; fi; done
       - echo list s3 buckets
       - aws s3 ls
       - echo list s3 bucket contents
       - aws s3 ls s3://$S3_BUCKET_NAME
-  build:
-    commands:
-      # - echo "Initialize Great Expectations"
-      # - great_expectations init -y
-      - echo "Run great_expectations expectations"
-      - great_expectations --v3-api suite new
-      - echo "Run great_expectations checkpoint"
-      - great_expectations checkpoint run ge_checkpoint
-
 
   post_build:
     commands:
