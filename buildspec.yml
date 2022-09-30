@@ -2,7 +2,7 @@
 version: 0.2
 
 phases:
-  prebuild:
+  pre_build:
     commands:
       - echo list s3 buckets
       - aws s3 ls
