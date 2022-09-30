@@ -12,7 +12,7 @@ phases:
     commands:
       - echo copy bitbucket files to s3
       - for i in $(aws s3 ls | awk '{print $3}'); do echo $i; if [ $i = $S3_BUCKET_NAME ]; 
-        then echo "Bucket exists" && aws s3 cp --recursive ./checkpoints/** s3://$S3_BUCKET_NAME/checkpoints/; fi; done
+        then echo "Bucket exists" && aws s3 cp --recursive ./checkpoints/* s3://$S3_BUCKET_NAME/checkpoints/; fi; done
       - echo list s3 buckets
       - aws s3 ls
       - echo list s3 bucket contents
